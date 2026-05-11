@@ -1,0 +1,100 @@
+<div class="container mt-5">
+    <h1 class="text-center">Formulario de Inscripción</h1>
+    <form (submit)="registrar()">
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" [(ngModel)]="inscripcion.email"
+                name="email" (change)="onCambioDatos()">
+        </div>
+        <div class="row mb-3">
+            <div class="col-12 col-md-6">
+                <label class="form-label">DNI</label>
+                <input type="number" class="form-control" [(ngModel)]="inscripcion.dni" name="dni"
+                    (change)="onCambioDatos()">
+            </div>
+
+            <div class="col-12 col-md-6">
+                <label class="form-label">Curso</label>
+                <input type="text" class="form-control" [(ngModel)]="inscripcion.curso" name="curso"
+                    (change)="onCambioDatos()">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-12 col-md-6">
+                <label class="form-label">Precio</label>
+                <input class="form-control" type="number" [(ngModel)]="inscripcion.precio" name="precio"
+                    (change)="onCambioDatos()" placeholder="Precio">
+            </div>
+            <div class="col-12 col-md-6">
+                <label class="form-label">Categoría</label>
+                <select class="form-control" [(ngModel)]="inscripcion.categoriaAlumno" name="categoria"
+                    (change)="onCambioDatos()">
+                    <option [ngValue]="0">Seleccione...</option>
+                    <option [ngValue]="1">Estudiante (35%)</option>
+                    <option [ngValue]="2">Egresado (50%)</option>
+                    <option [ngValue]="3">Particular (Sin desc)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="mb-3" *ngIf="inscripcion.precio > 0 && inscripcion.categoriaAlumno > 0">
+            <label class="form-label text-success fw-bold">Precio Total a abonar: {{ precioCalculado | currency
+                }}</label>
+        </div>
+
+        <button class="btn btn-primary" type="submit" [disabled]="!precioCalculado">Registrar</button>
+    </form>
+
+    <div class="mt-5">
+        <h2 class="text-center">Tabla de Inscripciones</h2>
+        <table class="table table-striped mt-4">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">DNI</th>
+                    <th scope="col">Curso</th>
+                    <th scope="col">Categoría</th>
+                    <th scope="col">Precio Final</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let cliente of listaInscripciones">
+                    <td>{{ cliente.fechaInscripcion | date:'dd/MM/yyyy' }}</td>
+                    <th scope="row">{{cliente.dni}}</th>
+                    <td>{{cliente.curso}}</td>
+                    <td>
+                        @switch (cliente.categoriaAlumno) {
+                        @case (1) { Estudiante }
+                        @case (2) { Egresado }
+                        @case (3) { Particular }
+                        }
+                    </td>
+                    <td>{{ cliente.precioFinal | currency }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-5 bg-light p-4 rounded border" *ngIf="listaInscripciones.length > 0">
+        <h3 class="text-center">Resumen de Inscripciones</h3>
+        <div class="row text-center mt-3">
+            <div class="col-md-3">
+                <h5>Estudiantes</h5>
+                <p class="fs-4">{{ resumen.totalEstudiantes }}</p>
+            </div>
+            <div class="col-md-3">
+                <h5>Egresados</h5>
+                <p class="fs-4">{{ resumen.totalEgresados }}</p>
+            </div>
+            <div class="col-md-3">
+                <h5>Particulares</h5>
+                <p class="fs-4">{{ resumen.totalParticulares }}</p>
+            </div>
+            <div class="col-md-3 border-start border-2 border-primary">
+                <h5 class="text-primary">Total General</h5>
+                <p class="fs-4 fw-bold text-primary">{{ resumen.totalGeneral | currency }}</p>
+            </div>
+        </div>
+    </div>
+</div>
