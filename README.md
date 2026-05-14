@@ -3,7 +3,6 @@ Este proyecto fue desarrollado para la cátedra de Programación y Servicios Web
 👥 Integrantes:
 Orellana Cristian Maximiliano
 Noemí Ayelen Saravia
-Dario Abel Martinez
 Christian Guari 
 Mateo Alberto Alvarez 
 
